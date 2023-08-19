@@ -117,8 +117,9 @@ async def get_common_addresses(nombre_comuna: str):
         result = db.query(models.Addresses).filter(models.Addresses.nombre_comuna == filtro.upper()).all()
         json_compatible_item_data = jsonable_encoder(result)
         return JSONResponse(content=json_compatible_item_data)
-    except:
-        print("An exception occurred")
+    except Exception as err:
+        print(f"Error! Unexpected {err=}, {type(err)=}")
+        raise
     
 
     
