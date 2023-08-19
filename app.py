@@ -118,7 +118,7 @@ async def get_common_addresses(nombre_comuna: str):
         json_compatible_item_data = jsonable_encoder(result)
         return JSONResponse(content=json_compatible_item_data)
     except Exception as err:
-        print(f"Error! Unexpected {err=}, {type(err)=}")
+        print(f"Error! Unexpected {err=}")
         raise
     
 
