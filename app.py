@@ -40,7 +40,10 @@ db = SessionLocal()
 
 class Position(BaseModel):
     lat: float
-    lon: float 
+    lon: float
+
+    class Config:
+        orm_true: True 
 
 def calcular_distancia_coordenadas(coord1, coord2):
     return geodesic(coord1, coord2).kilometers
@@ -73,13 +76,13 @@ def crear_kml(ruta_optima):
 @app.get('/')
 def read_root():
     return {"message":"conjunto de direcciones"}
-    
 
+
+    
     
 
 @app.post('/definir_ruta', response_model = Position)
 def definir_ruta(punto_partida: Position, puntos_destino: List[Position]):
-
     ppartida = [(punto_partida.lat,punto_partida.lon)]
 
     puntosXrecorrer = []
@@ -99,7 +102,7 @@ def definir_ruta(punto_partida: Position, puntos_destino: List[Position]):
         url += f"{latitud},{longitud}/"
   
     rop = crear_kml(ruta_optima)
-    print(rop)
+    #print(rop)
     response = {
         "ruta_op" :  ruta_optima,
         "kml_rop" :  str(rop),
