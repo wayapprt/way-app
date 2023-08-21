@@ -1,6 +1,8 @@
 from geopy.distance import geodesic
 import simplekml
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
+
 from pydantic import BaseModel
 from typing import List
 from database import SessionLocal
@@ -10,6 +12,17 @@ from fastapi.responses import JSONResponse
 import models
 
 app = FastAPI()
+
+
+
+app.add_middleware(
+CORSMiddleware,
+allow_origins=["*"], # Allows all origins
+allow_credentials=True,
+allow_methods=["*"], # Allows all methods
+allow_headers=["*"], # Allows all headers
+)
+
 
 class Addresses(BaseModel): # Serializar
     id: int
@@ -59,13 +72,9 @@ def crear_kml(ruta_optima):
 
 @app.get('/')
 def read_root():
-    return {"welcome":"Welcome to my REST API!",
-            "message":"Initial route"}
-
-
-@app.get('/obtener_direcciones')
-def leer_direcciones():
     return {"message":"conjunto de direcciones"}
+    
+
     
 
 @app.post('/definir_ruta', response_model = Position)
